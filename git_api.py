@@ -20,27 +20,40 @@ def api_get_github_languages(username):
     return jsonify(languages)
 
 def display_profile_info(profile):
-    print("GitHub Profile Information:")
+    print(f"GitHub Profile: {profile.get('login')}")
     print(f"Name: {profile.get('name')}")
+    print(f"Username: {profile.get('login')}")
     print(f"Bio: {profile.get('bio')}")
     print(f"Public Repos: {profile.get('public_repos')}")
     print(f"Followers: {profile.get('followers')}")
     print(f"Following: {profile.get('following')}")
     print(f"Location: {profile.get('location')}")
-    print(f"Blog: {profile.get('blog')}")
+    print(f"Profile URL: {profile.get('html_url')}")
     print()
 
 def display_repositories(repos):
-    print("Public Repositories:")
+    print("Repositories ---------------------")
     for repo in repos:
-        print(f"- {repo['name']}: {repo['html_url']} (⭐ {repo['stargazers_count']})")
+        print(f"- {repo['name']}")
+        print(f"View Repo (URL): {repo['html_url']}")
+        print(f"Stars: {repo['stargazers_count']}, Forks: {repo['forks_count']}")
+        print(f"Language: {repo['language']}")
+        print(f"Last Updated: {repo['updated_at']}")
+        print("\n") 
     print()
 
 def display_languages(languages):
-    print("Most Used Programming Languages:")
+    print("Most Used Languages")
     sorted_languages = sorted(languages.items(), key=lambda item: item[1], reverse=True)
     for lang, bytes in sorted_languages:
         print(f"- {lang}: {bytes} bytes")
+    print()
+
+def display_popular_repositories(repos, min_stars=50):
+    print(f"Most Starred Repos")
+    popular_repos = [repo for repo in repos if repo['stargazers_count'] >= min_stars]
+    for repo in popular_repos:
+        print(f"{repo['name']} - {repo['stargazers_count']} stars")
     print()
     
 def main():
